@@ -1,0 +1,14 @@
+{
+  "name": "@d3/pie-settings",
+  "main": "b1d77bd0e1c68b87@158.js",
+  "version": "158.0.0",
+  "homepage": "https://observablehq.com/@d3/pie-settings",
+  "author": {
+    "name": "D3",
+    "url": "https://observablehq.com/@d3"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

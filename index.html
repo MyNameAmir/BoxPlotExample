@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
+    <title>test test aframe</title>
+
+
+</head>
+
+<body>
+
+
+    <!-- <a-scene>
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-plane positiodn="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-sky color="#ECECEC"></a-sky>
+      </a-scene> -->
+    <!-- <g fill="nodne" font-size="10" font-family="sans-serif" text-anchor="middle">
+        <path class="domain" stroke="currentColor" d="M0.5,6V0.5H880.5V6"></path>
+        <g class="tick" opacity="1" transform="translate(0.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.0</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(176.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.2</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(352.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.4</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(528.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.6</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(704.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.8</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(880.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">1.0</text>
+        </g>
+    </g> -->
+    <div id="input1"></div>
+    <div id="container"></div>
+    <div id="gui-slider"></div>
+
+    <script type="module" async>
+        let data = [];
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+        let count = 0;
+
+        async function f1() {
+            const x = await d3.csv("/datafiles/student_marks.csv", function (d) { return d })
+            return x;
+        }
+
+        let y = f1();
+        y.then((x) => drawPlot(x))
+
+
+        //function that does the drawings on aframe
+
+        // Declare the chart dimensions and margins.
+        const width = 640;
+        const height = 400;
+        const marginTop = 20;
+        const marginRight = 20;
+        const marginBottom = 30;
+        const marginLeft = 40;
+
+        let colourArray = [];
+
+        //model view controller
+        //model view controller
+        //model view controller
+        //model view controller
+        //model view controller
+        //model view controller
+        //model view controller
+        //reproducibility, reusable
+        //https://support.microsoft.com/en-us/office/change-the-display-of-a-3-d-chart-60c13909-d2a1-4e06-8b8c-bccba7868c9b
+        //small filter
+
+        //august: at the end of each week, point form, what I did this week. and 
+        //a short point for what I will do next week. Kim email. 
+        //bar chart 3d with a slider
+
+        // // // Declare the x (horizontal position) scale.
+        // const x = d3.scaleUtc()
+        //     .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+        //     .range([marginLeft, width - marginRight]);
+
+        // // Declare the y (vertical position) scale.
+        // const y = d3.scaleLinear()
+        //     .domain([0, 100])
+        //     .range([height - marginBottom, marginTop]);
+
+        // Create the SVG container.
+        const svg1 = d3.create("a-scene")
+            .attr("width", width)
+            .attr("height", height)
+        // .call(d3.axisBottom(x));
+
+
+        // gui-slider.append("a-gui-slider")
+        //                  .attr("width", "2.5")
+        //                  .attr("height", "0.75")
+        //                  .attr("id", "slider")
+        //                  .attr("percent", "0.29")
+        //                  .attr("margin", "0 0 0.05 0")
+
+
+        //         <a-gui-slider 	
+        // 	width="2.5" height="0.75"
+        // 	onclick="slideActionFunction"
+        // 	percent="0.29"
+        // 	margin="0 0 0.05 0"
+        // >
+        // </a-gui-slider>
+
+
+
+        const input = d3.create("input")
+            .attr("id", "inputrange")
+            .attr("type", "range")
+            .attr("min", "0")
+            .attr("max", "100")
+            .attr("step", "0.1")
+
+        input1.append(input.node());
+        // // Add the x-axis.
+
+        // svg1.append("g")
+        //     .attr("transform", `translate(0,${height - marginBottom})`)
+        //     .call(d3.axisBottom(x));
+
+
+        // svg1.append("g")
+        //     .attr("transform", `translate(${marginLeft},0)`)
+        //     .call(d3.axisLeft(y));
+
+        // // Add the y-axis.
+        // const gx = svg1.append("g")
+        //     .attr("transform", `translate(0,${height - marginBottom})`)
+        //     .call(d3.axisBottom(x));
+
+        // // Append the SVG element.
+
+        //making a box using A-frame but appeding on d3
+       
+
+
+        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 0 -4").attr("rotation", `-90 0 0`).attr("width", "20").attr("height", "20").attr("color", "#7BC8A4")
+
+        //      <a-scene>
+        //     <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        //     <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+        //     <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        //     <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        //     <a-sky color="#ECECEC"></a-sky>
+        //   </a-scene>
+        // gx.transition()
+        //     .duration(750)
+        //     .call(d3.axisBottom(x));
+
+        container.append(svg1.node());
+
+
+        document.getElementById("input1").addEventListener("input", (e) => {
+            document.getElementById("abox").setAttribute("rotation", `0 ${inputrange.value} 0`)
+            document.getElementById("aplane").setAttribute("rotation", `${-inputrange.value} 0 0`)
+        })
+
+        function drawPlot(array) {
+            let colourCounter = 0;
+            let x = -90;
+            let z = -3;
+            array = array.sort();
+            for (let i = 0; i < array.length; i++) {
+                console.log(array[i].Test_1)
+                let colour = colourArray[colourCounter];
+                console.log(colour)
+
+                //TODO: add text into on top of the box
+                svg1.append("a-box")
+                    .attr("id", "abox")
+                    .attr("position", `${x / 10} 0.5 ${z}`)
+                    .attr("height", `${Math.pow(array[i].Test_1, 1.5) / 100}`)
+                    .attr("rotation", `0 45 0`)
+                    .attr("color", `${colour}`);
+
+
+                svg1.append("a-entity")
+                    .attr("mixin", "marker")
+                    .attr("position", `-2.5 1 ${z}-0.01`)
+
+                svg1.append("a-entity")
+                    .attr(`id`, `s${i}`)
+                    .attr("text", `width: 1.5; color: black; value: ${array[i].Test_1}%`)
+                    .attr("width", 1.5)
+                    .attr("position", `${x / 10} ${Math.pow(array[i].Test_1, 1.5)+2} ${z}`)
+                x += 15;
+                colourCounter++;
+                if(x == 90){
+                    colourCounter = 0;
+                    x = -90;
+                    z += z;
+                }
+            }
+        }
+
+        function setColours(){
+            //change the number 11 to something more universal for the number of data or make it an input from the user if they want
+
+
+            //TODO: set the colour based on the Test_1 value, the higher the greener the lower the redder.
+            for(let i = 0; i < 11; i++){
+                colourArray.push(generateColour(256, 256, 256))
+            }
+        }
+
+        setColours();
+
+        function generateColour(num1, num2, num3){
+            let r = Math.floor(Math.random() * num1);
+            let g = Math.floor(Math.random() * num2);
+            let b = Math.floor(Math.random() * num3);
+            return  `rgb(${r}, ${g}, ${b})`
+        }
+
+        //<a-entity mixin="marker" position="-2.5 1 0.01"></a-entity>
+    //     <a-entity position="-2.5 1 0"
+    //             text="anchor: left; width: 1.5; color: white; value: [LEFT ANCHOR] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam">
+    //   </a-entity>
+ 
+
+        console.log(count)
+
+
+    </script>
+
+
+    <style>
+        html.a-fullscreen .a-canvas {
+            width: 100% !important;
+            height: 100% !important;
+            top: 50px !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            position: fixed !important;
+        }
+    </style>
+</body>
+
+</html>
