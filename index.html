@@ -181,14 +181,28 @@
             document.getElementById("aplane").setAttribute("rotation", `${-inputrange.value} 0 0`)
         })
 
+        function getColour(value, array){
+            let rgb = [255, 255, 0];
+            let step = Math.floor(255 / array.length);
+            let diff = value - 50;
+            console.log(value)
+            if(diff > 0){
+                return [255 - (diff * step), 255, 0]
+            }else{
+                return [255, 255 - Math.abs(diff * step), 0]
+            }
+            
+        }
+
+
         function drawPlot(array) {
             let colourCounter = 0;
             let x = -90;
             let z = -3;
-            array = array.sort();
+           
             for (let i = 0; i < array.length; i++) {
                 console.log(array[i].Test_1)
-                let colour = colourArray[colourCounter];
+                let colour = getColour(array[i].Test_1, array);
                 console.log(colour)
 
                 //TODO: add text into on top of the box
@@ -197,7 +211,7 @@
                     .attr("position", `${x / 10} 0.5 ${z}`)
                     .attr("height", `${Math.pow(array[i].Test_1, 1.5) / 100}`)
                     .attr("rotation", `0 45 0`)
-                    .attr("color", `${colour}`);
+                    .attr("color", `rgb(${colour[0]}, ${colour[1]}, 0)`);
 
 
                 svg1.append("a-entity")
