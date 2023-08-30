@@ -136,6 +136,7 @@
             .attr("min", "0")
             .attr("max", "100")
             .attr("step", "0.1")
+            .attr("value", "90")
 
         input1.append(input.node());
         // // Add the x-axis.
@@ -160,18 +161,12 @@
        
 
 
-        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 0 -4").attr("rotation", `-90 0 0`).attr("width", "20").attr("height", "20").attr("color", "#7BC8A4")
+        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 -3 -10").attr("rotation", `${-inputrange.value} 0 0`).attr("width", "20").attr("height", "20").attr("color", "#7BC8A4")
+        //change the position (the -20) based on the number of rows you are going to get
+        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 0 -20").attr("rotation", `0 0 0`).attr("width", "040").attr("height", "20").attr("color", "#888888")
+        svg1.append("a-plane").attr("id", "aplane").attr("position", "-10 0 -20").attr("rotation", `0 -90 0`).attr("width", "40").attr("height", "20").attr("color", "#7BC8A4")
 
-        //      <a-scene>
-        //     <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-        //     <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-        //     <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-        //     <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-        //     <a-sky color="#ECECEC"></a-sky>
-        //   </a-scene>
-        // gx.transition()
-        //     .duration(750)
-        //     .call(d3.axisBottom(x));
+
 
         container.append(svg1.node());
 
@@ -204,59 +199,47 @@
                 console.log(array[i].Test_1)
                 let colour = getColour(array[i].Test_1, array);
                 console.log(colour)
+                array = array.sort();
+                //TODO: add text into on top of the box, done.
 
-                //TODO: add text into on top of the box
+                //with a height of 100, the position needs to be at 47
+                //with a height of 10, it needs to be -2
                 svg1.append("a-box")
-                    .attr("id", "abox")
-                    .attr("position", `${x / 10} 0.5 ${z}`)
+                    .attr("id", `abox${i}`)
+                    .attr("position", `${x / 10} -3 ${z}`)
                     .attr("height", `${Math.pow(array[i].Test_1, 1.5) / 100}`)
+                    .attr("width", 0.5)
+                    .attr("depth", 0.5)
                     .attr("rotation", `0 45 0`)
                     .attr("color", `rgb(${colour[0]}, ${colour[1]}, 0)`);
 
 
-                svg1.append("a-entity")
-                    .attr("mixin", "marker")
-                    .attr("position", `-2.5 1 ${z}-0.01`)
+                
 
-                svg1.append("a-entity")
+                svg1.append("a-text")
                     .attr(`id`, `s${i}`)
-                    .attr("text", `width: 1.5; color: black; value: ${array[i].Test_1}%`)
-                    .attr("width", 1.5)
-                    .attr("position", `${x / 10} ${Math.pow(array[i].Test_1, 1.5)+2} ${z}`)
-                x += 15;
+                    .attr("value", `${array[i].Test_1}%`)
+                    .attr("color", "black")
+                    .attr("position",`${x / 10} ${(Math.pow(array[i].Test_1, 1.4) / 100) -3} ${z+0.2}`)
+                    .attr("text")
+                x += 10;
                 colourCounter++;
                 if(x == 90){
                     colourCounter = 0;
                     x = -90;
-                    z += z;
+                    z += -4;
                 }
             }
+
+            
+        for(let i = 0; i < array.length; i++){
+            document.getElementById(`abox${i}`).addEventListener("click", (e) => {
+                console.log(array[i].Test_1);
+            })
         }
 
-        function setColours(){
-            //change the number 11 to something more universal for the number of data or make it an input from the user if they want
-
-
-            //TODO: set the colour based on the Test_1 value, the higher the greener the lower the redder.
-            for(let i = 0; i < 11; i++){
-                colourArray.push(generateColour(256, 256, 256))
-            }
         }
 
-        setColours();
-
-        function generateColour(num1, num2, num3){
-            let r = Math.floor(Math.random() * num1);
-            let g = Math.floor(Math.random() * num2);
-            let b = Math.floor(Math.random() * num3);
-            return  `rgb(${r}, ${g}, ${b})`
-        }
-
-        //<a-entity mixin="marker" position="-2.5 1 0.01"></a-entity>
-    //     <a-entity position="-2.5 1 0"
-    //             text="anchor: left; width: 1.5; color: white; value: [LEFT ANCHOR] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam">
-    //   </a-entity>
- 
 
         console.log(count)
 
