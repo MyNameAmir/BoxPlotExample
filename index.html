@@ -158,13 +158,28 @@
         // // Append the SVG element.
 
         //making a box using A-frame but appeding on d3
-       
 
 
-        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 -3 -10").attr("rotation", `${-inputrange.value} 0 0`).attr("width", "20").attr("height", "20").attr("color", "#7BC8A4")
+
+        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 -3 -10").attr("rotation", `${-inputrange.value} 0 0`).attr("width", "40").attr("height", "20").attr("color", "#7BC8A4")
         //change the position (the -20) based on the number of rows you are going to get
-        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 0 -20").attr("rotation", `0 0 0`).attr("width", "040").attr("height", "20").attr("color", "#888888")
+        svg1.append("a-plane").attr("id", "aplane").attr("position", "0 0 -20").attr("rotation", `0 0 0`).attr("width", "40").attr("height", "20").attr("color", "#888888")
         svg1.append("a-plane").attr("id", "aplane").attr("position", "-10 0 -20").attr("rotation", `0 -90 0`).attr("width", "40").attr("height", "20").attr("color", "#7BC8A4")
+
+        // svg1.append("a-entity")
+        //     .attr("line", `start: -20 ${(Math.pow(50, 1.4) / 100) -3} -20; end: 20 ${(Math.pow(50, 1.4) / 100) -3} -20; color: red`)
+        //     .attr("line__2", `start: -20 ${(Math.pow(60, 1.4) / 100) -3} -20; end: 20 ${(Math.pow(60, 1.4) / 100) -3} -20; color: red`)
+        //     .attr("line__3", `start: -20 ${(Math.pow(70, 1.4) / 100) -3} -20; end: 20 ${(Math.pow(70, 1.4) / 100) -3} -20; color: red`)
+        //     .attr("line__4", `start: -20 ${(Math.pow(80, 1.4) / 100) -3} -20; end: 20 ${(Math.pow(80, 1.4) / 100) -3} -20; color: red`)
+        //     .attr("line__5", `start: -20 ${(Math.pow(90, 1.4) / 100) -3} -20; end: 20 ${(Math.pow(90, 1.4) / 100) -3} -20; color: red`)
+
+        //figuring out the height of the lines
+        svg1.append("a-entity")
+            .attr("line", `start: -20 ${(Math.pow(50, 1.4) / 100) - 3} -3; end: 20 ${(Math.pow(50, 1.4) / 100) - 3} -3; color: red`)
+            .attr("line__2", `start: -20 ${(Math.pow(60, 1.4) / 100) - 3} -3; end: 20 ${(Math.pow(60, 1.4) / 100) - 3} -3; color: red`)
+            .attr("line__3", `start: -20 ${(Math.pow(70, 1.4) / 100) - 3} -3; end: 20 ${(Math.pow(70, 1.4) / 100) - 3} -3; color: red`)
+            .attr("line__4", `start: -20 ${(Math.pow(80, 1.4) / 100) - 3} -3; end: 20 ${(Math.pow(80, 1.4) / 100) - 3} -3; color: red`)
+            .attr("line__5", `start: -20 ${(Math.pow(90, 1.4) / 100) - 3} -3; end: 20 ${(Math.pow(90, 1.4) / 100) - 3} -3; color: red`)
 
 
 
@@ -176,25 +191,28 @@
             document.getElementById("aplane").setAttribute("rotation", `${-inputrange.value} 0 0`)
         })
 
-        function getColour(value, array){
+        function getColour(value, array) {
             let rgb = [255, 255, 0];
             let step = Math.floor(255 / array.length);
             let diff = value - 50;
             console.log(value)
-            if(diff > 0){
+            if (diff > 0) {
                 return [255 - (diff * step), 255, 0]
-            }else{
+            } else {
                 return [255, 255 - Math.abs(diff * step), 0]
             }
-            
+
         }
+
+
+
 
 
         function drawPlot(array) {
             let colourCounter = 0;
             let x = -90;
             let z = -3;
-           
+
             for (let i = 0; i < array.length; i++) {
                 console.log(array[i].Test_1)
                 let colour = getColour(array[i].Test_1, array);
@@ -207,36 +225,36 @@
                 svg1.append("a-box")
                     .attr("id", `abox${i}`)
                     .attr("position", `${x / 10} -3 ${z}`)
-                    .attr("height", `${Math.pow(array[i].Test_1, 1.5) / 100}`)
+                    .attr("height", `${array[i].Test_1 / 10}`)
                     .attr("width", 0.5)
                     .attr("depth", 0.5)
                     .attr("rotation", `0 45 0`)
                     .attr("color", `rgb(${colour[0]}, ${colour[1]}, 0)`);
 
 
-                
+
 
                 svg1.append("a-text")
                     .attr(`id`, `s${i}`)
                     .attr("value", `${array[i].Test_1}%`)
                     .attr("color", "black")
-                    .attr("position",`${x / 10} ${(Math.pow(array[i].Test_1, 1.4) / 100) -3} ${z+0.2}`)
+                    .attr("position", `${x / 10} ${(Math.pow(array[i].Test_1, 1.4) / 100) - 3} ${z + 0.2}`)
                     .attr("text")
                 x += 10;
                 colourCounter++;
-                if(x == 90){
+                if (x == 90) {
                     colourCounter = 0;
                     x = -90;
                     z += -4;
                 }
             }
 
-            
-        for(let i = 0; i < array.length; i++){
-            document.getElementById(`abox${i}`).addEventListener("click", (e) => {
-                console.log(array[i].Test_1);
-            })
-        }
+
+            for (let i = 0; i < array.length; i++) {
+                document.getElementById(`abox${i}`).addEventListener("click", (e) => {
+                    console.log(array[i].Test_1);
+                })
+            }
 
         }
 
