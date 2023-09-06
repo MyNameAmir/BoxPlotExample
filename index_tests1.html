@@ -14,7 +14,40 @@
 <body>
 
 
-    
+    <!-- <a-scene>
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-plane positiodn="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-sky color="#ECECEC"></a-sky>
+      </a-scene> -->
+    <!-- <g fill="nodne" font-size="10" font-family="sans-serif" text-anchor="middle">
+        <path class="domain" stroke="currentColor" d="M0.5,6V0.5H880.5V6"></path>
+        <g class="tick" opacity="1" transform="translate(0.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.0</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(176.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.2</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(352.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.4</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(528.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.6</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(704.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">0.8</text>
+        </g>
+        <g class="tick" opacity="1" transform="translate(880.5,0)">
+            <line stroke="currentColor" y2="6"></line>
+            <text fill="currentColor" y="9" dy="0.71em">1.0</text>
+        </g>
+    </g> -->
     <div id="input1"></div>
     <div id="container"></div>
     <div id="gui-slider"></div>
@@ -26,7 +59,7 @@
         let count = 0;
 
         async function f1() {
-            const x = await d3.csv("/datafiles/GDP_Quarterly.csv", function (d) { return d })
+            const x = await d3.csv("/datafiles/student_marks.csv", function (d) { return d })
             return x;
         }
 
@@ -130,7 +163,7 @@
 
         svg1.append("a-box").attr("class", "aplane").attr("position", "0 -3 -10").attr("rotation", `${-inputrange.value} 0 0`).attr("depth", "0.5").attr("width", "40").attr("height", "20").attr("color", "#7BC8A4")
         //change the position (the -20) based on the number of rows you are going to get
-        svg1.append("a-box").attr("class", "aplane").attr("position", "0 0 -20").attr("rotation", `0 0 0`).attr("width", "40").attr("depth", "0.5").attr("height", "20").attr("color", "#888888")
+        svg1.append("a-box").attr("class", "aplane").attr("position", "0 0 -20").attr("rotation", `0 0 0`).attr("width", "40").attr("height", "20").attr("color", "#888888")
         //svg1.append("a-plane").attr("id", "aplane").attr("position", "-20 0 -20").attr("rotation", `0 -90 0`).attr("width", "40").attr("depth", "1").attr("height", "20").attr("color", "#7BC8A4").attr("visible", "true")
         svg1.append("a-box").attr("class", "abox").attr("position", "-20 0 -20").attr("rotation", `0 -90 0`).attr("width", "40").attr("depth", "0.5").attr("height", "20").attr("color", "#7BC8A4").attr("visible", "true")
 
@@ -166,38 +199,11 @@
             let diff = value - 50;
             console.log(value)
             if (diff > 0) {
-                return [255, 255, 0]
+                return [255 - (diff * step), 255, 0]
             } else {
-                return [255, 255, 0]
+                return [255, 255 - Math.abs(diff * step), 0]
             }
 
-        }
-
-        function extract(array){
-            let tempArray = [];
-            for(let i = 0, count = 1; i < array.length; i++){
-                if(array[i].Country == "Finland"){
-                    if(array[i].YearQuarter == `2014Q${count}`){
-                        tempArray.push(["Finland", array[i].YearQuarter, array[i].GDP.replace(",", "")]);
-                        count++;
-                    }
-                }
-                else if(array[i].Country == "Sweden"){
-                    if(array[i].YearQuarter == `2014Q${count}`){
-                        tempArray.push(["Sweden", array[i].YearQuarter, array[i].GDP.replace(",", "")]);
-                        count++;
-                    }
-                }
-                else if(array[i].Country == "Norway"){
-                    if(array[i].YearQuarter == `2014Q${count}`){
-                        tempArray.push(["Sweden", array[i].YearQuarter, array[i].GDP.replace(",", "")]);
-                        count++;
-                    }
-                }
-                if(count == 5)
-                    count = 1;
-            }
-            return tempArray;
         }
 
 
@@ -209,22 +215,11 @@
             let x = -150;
             let z = -3;
 
-            for(let i = 0; i < array.length; i++){
-                array[i].GDP = array[i].GDP.replace(",", "");
-                console.log(typeof(array[i].GDP))
-            }
-
-
-
-            //extract the data
-            let threeDArray = extract(array);
-            console.log(threeDArray)
-
-            for (let i = 0; i < threeDArray.length; i++) {
-                console.log(threeDArray[i][3])
-                let colour = getColour(threeDArray[i][2], threeDArray);
+            for (let i = 0; i < array.length; i++) {
+                console.log(array[i].Test_1)
+                let colour = getColour(array[i].Test_1, array);
                 console.log(colour)
-                //array = array.sort();
+                array = array.sort();
                 //TODO: add text into on top of the box, done.
 
                 //with a height of 100, the position needs to be at 47
@@ -232,7 +227,7 @@
                 svg1.append("a-box")
                     .attr("id", `abox${i}`)
                     .attr("position", `${x / 10} -3 ${z}`)
-                    .attr("height", `${threeDArray[i][2] / 10000}`)
+                    .attr("height", `${array[i].Test_1 / 10}`)
                     .attr("width", 0.5)
                     .attr("depth", 0.5)
                     .attr("rotation", `0 45 0`)
@@ -241,27 +236,27 @@
 
 
 
-                // svg1.append("a-text")
-                //     .attr(`id`, `s${i}`)
-                //     .attr("value", `${array[i].GPD/100}%`)
-                //     .attr("color", "black")
-                //     .attr("position", `${x / 10} ${(Math.pow(array[i].GDP, 1.04) / 100) - 3} ${z + 0.2}`)
-                //     .attr("text")
+                svg1.append("a-text")
+                    .attr(`id`, `s${i}`)
+                    .attr("value", `${array[i].Test_1}%`)
+                    .attr("color", "black")
+                    .attr("position", `${x / 10} ${(Math.pow(array[i].Test_1, 1.4) / 100) - 3} ${z + 0.2}`)
+                    .attr("text")
                 x += 20;
                 colourCounter++;
-                if ((i + 1) % 4 == 0) {
+                if (x == 150) {
                     colourCounter = 0;
                     x = -150;
                     z += -4;
                 }
             }
 
-            //does not work
-            // for (let i = 0; i < array.length; i++) {
-            //     document.getElementById(`abox${i}`).addEventListener("click", (e) => {
-            //         console.log(array[i].GDP);
-            //     })
-            // }
+
+            for (let i = 0; i < array.length; i++) {
+                document.getElementById(`abox${i}`).addEventListener("click", (e) => {
+                    console.log(array[i].Test_1);
+                })
+            }
 
         }
 
